@@ -1,0 +1,169 @@
+
+div.half {
+	display:block;
+	float: left;
+	width:45%;
+	padding-left:2%;
+	padding-left:3%;
+}
+
+.break {
+	clear: both;
+	float: none;
+}
+
+div.text-left, ul.text-left, li.text-left, p.text-left {
+	text-align: left;
+}
+
+
+.reveal pre code {
+	text-align: left;
+	font-size: .65em;
+	line-height: 115%;
+	font-family: monospace, sans-serif;
+}
+
+
+div.text-medium, code.text-medium, ul.text-medium, pre code.text-medium, p.text-medium {
+	font-size: 100%;
+	line-height: 100%;
+}
+
+div.text-small, code.text-small, ul.text-small, pre code.text-small, p.text-small {
+	font-size: 85%;
+}
+
+pre code  {
+	font-size: 90%;
+	line-height: 120% !important;
+}
+
+span.text-small {
+    font-size: 60%;
+}
+
+div.text-big, code.text-big, ul.text-big, pre code.text-big {
+	font-size: 120%;
+}
+
+div.text-bigger, code.text-bigger, ul.text-bigger, pre code.text-bigger {
+	font-size: 150%;
+	line-height: 100%;
+}
+
+h1.medium {
+	text-transform: none;
+	font-size: 2.5em;
+}
+
+h1.small {
+	text-transform: none;
+	font-size: 2em;
+}
+
+.reveal h1, .reveal h2 {
+	margin-bottom: 40px;
+}
+
+h2.medium {
+	text-transform: none;
+	font-size: 1.75em;
+}
+
+h3.medium {
+	text-transform: none;
+	font-size: 1.35em;
+	line-height: 125%;
+}
+
+.reveal section img.no-border {
+	border: 0px;
+	box-shadow:none;
+	margin: 0;
+	padding: 0;
+}
+
+.reveal blockquote {
+	background-color: #dedede;
+}
+
+footer {
+	position: absolute;
+    width: 100%;
+	bottom: .5em;
+	left: 3em;
+
+	margin: 0 0 0 0;
+	color: black;
+	font-family: "News Cycle", Impact, sans-serif;
+	line-height: 0.9em;
+	letter-spacing: 0.02em;
+	text-transform: none;
+	text-shadow: none;
+	font-size: 1.5em;
+}
+/*footer img {
+    width: 300px;
+}*/
+footer .stuck {
+    float: left;
+    margin-left: 20px;
+    line-height: 12px;
+}
+
+ul li {
+	margin-bottom: 50px;
+}
+
+ul.bullets li {
+	line-height: 200%;
+}
+
+.reveal h5 {
+	font-size: .90em;
+}
+
+.reveal pre code {
+	padding-left: 15px;
+	text-align: left;
+	line-height: 115%;
+	font-family: monospace,sans-serif;
+}
+
+.reveal ul li h4, .reveal ul li h5, .reveal ul li h6 {
+	margin-bottom: 5px
+}
+
+div.align-left {
+	float: left;
+	padding-right: 10px;
+}
+
+div.align-right {
+	float: right;
+	margin-right: 150px;
+}
+
+.reveal h3.name  {
+  padding-top: 15px;
+  font-size: 1.40em;
+}
+
+.reveal h4.name {
+  padding-top: 15px;
+}
+
+/* .reveal pre code {
+	background-color: #fcfcfc;
+
+}
+
+.reveal pre {
+	box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+}
+
+.tomorrow-comment, pre .comment, pre .title, pre .python {
+	color: #333;
+} */
+

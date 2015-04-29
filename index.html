@@ -1,0 +1,1582 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Introduction to Symfony2: Getting Ready for D8</title>
+
+		<meta name="description" content="Introduction to Symfony2: Getting Ready for D8">
+		<meta name="author" content="Jesus Manuel Olivas">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style"
+					content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,
+		maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<!-- <link rel="stylesheet" href="lib/css/zenburn.css"> -->
+		<link rel="stylesheet" href="lib/css/tomorrow-night-bright.css">
+		<!-- <link rel="stylesheet" href="lib/css/tomorrow.css"> -->
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script> 	document.write( '<link rel="stylesheet" href="css/print/' + (
+		window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css"
+		type="text/css" media="print">' ); </script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container displayed as slide -->
+			<div class="slides">
+
+				<section>
+					<h1 class="medium">Introduction to Symfony2: Getting Ready for D8</h1>
+				</section>
+				
+				<section>
+					<section>
+						<h3>If you don't have the project running / see this screen, <strong>you're not ready to start! :'(</strong></h3>
+                        <p>Setup instructions: <a href="http://bit.ly/dcon-sf-setup">http://bit.ly/dcon-sf-setup</a></p>
+						<img src="assets/images/welcome.png" alt="" style="max-height: 50%;">
+                        <p>And ask us for help! :)</p>
+					</section>
+
+					<section>
+						<p>
+							<h2>Our goal is to leave no  developer behind.</h2>
+						</p>
+						<br/>
+						<p>
+							<h2>Milestons as separated branches.</h2>	
+						</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>But first, some basics.</h2>
+					</section>
+
+
+					<section>
+						<h2>What is Symfony</h2>						
+						<p>
+							Symfony is a group of decoupled components and other standalone PHP libraries.
+						</p>
+						<br/>
+						<p>
+							Then, based on these components, Symfony is also a full-stack web framework.
+						</p>
+						<br/>
+						<p>
+							<a href="http://symfony.com/components">http://symfony.com/components</a>
+						</p>
+						<aside class="notes">
+							<p>We can define Symfony as a group of decoupled components and other stand alone libraries.</p>
+							<p>And then based on these components Symfony is a full-stack web framework.</p>
+							<p>Does anyone knows which aproach is Drupal 8 using ?</p>
+							<p>Drupal is not using Symfony as a full stack framework.</p>
+							<p>Drupal is only taking advantage of some specific components.</p>
+						</aside>
+					</section>
+
+					<section>
+						<h2>Composer</h2>
+						<div class="text-medium">
+		            		<p>
+								Dependency Manager for PHP. 
+		            		</p>
+		            		<br/>
+		            		<p>
+		            			It allows you to declare the dependent libraries your project needs and it will install them in your project for you.
+		            		</p>
+						</div>
+					</section>
+
+					<!-- <section>
+						<h3>How to download Composer ?</h3>
+
+<pre><code class="bash">
+/* Project URL */
+http://getcomposer.org
+
+/* Download using curl */
+$curl -sS https://getcomposer.org/installer | php
+
+/* Or if you don't have curl */
+php -r "readfile('https://getcomposer.org/installer');" | php
+
+</code></pre>
+					</section> -->
+
+					<!-- <section>
+					<h3>How do I use Composer ?</h3>
+
+<pre><code class="bash">$composer init 
+$composer search faker
+$composer show fzaninotto/faker
+$composer require fzaninotto/faker:v1.3.0
+
+/* composer.json */
+{
+    "require": {
+        "fzaninotto/faker": "v1.3.0"
+    }
+}
+
+/* Download dependencies using composer */
+$composer install
+
+$composer show --installed
+</code></pre>
+					</section>
+ -->
+
+        			<section>
+          <h3>Install Symfony</h3>
+<pre><code class='bash text-medium'>
+$composer create-project symfony/framework-standard-edition sf2.dev 2.3.*
+
+</code></pre>
+        </section>
+
+					<section>
+						<h3>Application Directory Structure</h3>
+<pre><code class='bash text-medium'>
+ app    | The application code and configuration.
+ bin    | Executable code callable from the terminal.
+ src    | Our code and configuration as Bundles.
+ vendor | The third-party dependencies.
+ web    | The web root public directory
+
+</code></pre>
+					</section>
+
+				</section>
+
+				<section>
+
+					<section>
+						<h2>The HTTP Lifecycle</h2>
+						<div class="text-leff">
+							In every web application, in any language, you always have one goal, read and understand the HTTP Request in order to create and return the appropriate HTTP Response.
+						</div>
+					</section>
+
+					<section>
+						<h3>HTTP Request-Response</h3>
+						<p>Communication on the web is always a two step process:
+						<ul>
+							<li>The client sends an HTTP request</li>
+							<li>The server send back an HTTP response</li>
+						</ul>
+						</p>
+					</section>
+
+					<!-- <section>
+						<h3>The Request</h3>
+<pre><code class="text-bigger">
+GET /foo HTTP/1.1
+Host: yourdomain.com
+Accept: text/html
+User-Agent: Mozilla/5.0 (Macintosh)
+
+</code></pre>
+					</section>
+
+					<section>
+						<h3>
+This simple message communicates everything necessary about exactly which resource the client is requesting.
+						</h3>
+					</section>
+
+					<section>
+						<h3>The Response</h3>
+<pre><code class="text-bigger">
+￼HTTP/1.1 200 OK
+Date: Tue, 04 Jun 2011 21:05:05 GMT
+Server: lighttpd/1.4.19
+Content-Type: text/html
+<html>
+  <h1>Foo!</h1>
+</html>
+</code></pre>
+
+					</section>	 -->
+<!-- 
+					<section>
+						<h3>Request and Response in PHP</h3>
+						<ul class="text-left">
+							<li class="text-left">PHP gives you access to the HTTP request via several “superglobal” arrays. 
+							<br/><br/>
+							</li>
+							<li class="text-left">To create the HTTP response, use the the header() method to set the header lines and print content to populate the request body.</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Request and Responses in Symfony</h3>
+						<p>
+						<ul  class="text-left">
+							<li>Symfony offers a Request and Response objects that abstract the HTTP text messages into an object-oriented format.<br/><br/></li>
+							<li>
+							The main goal of the framework is to return a response in a optimized and effective way therefore we may say Symfony2 is an HTTP framework, it’s a Request/Response framework. 
+	
+							</li>
+						</ul>
+						</p>
+					</section>
+
+ -->					<section>
+						<h3>The Symfony Application Flow</h3>
+						<img src="assets/images/request-flow.png" 
+						class="no-border" />
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>PHP Classes and Namespaces</h2>
+						<hr/>
+					</section>
+
+					<section>
+						<h3>PHP Classes</h3>
+						<p>
+							A class is a blueprint or set of instructions to build a specific type of object.
+						</p>
+<pre><code class="php text-big">
+class Product
+{
+    private $foo = 'bar';
+    public function __construct()
+    {
+		...
+    } 
+}
+
+</code></pre>
+				<aside class="notes">
+					<p>
+						A class is a collection of variables and functions working with these variables. 
+						</p>
+					<p>
+						By default, a PHP class is identified by its name, which must be unique within your project.
+					</p>
+				</aside>
+					</section>
+
+					<section>
+						<h3>Referencing a non-namespaced class</h3>
+						<p>
+							This type of class has no namespace. It can be referenced in two different ways.
+						</p>
+<pre><code class="php text-big">
+// always works :)
+$product = new \Product();
+
+￼// sometimes works :(
+$product = new Product();
+
+</code></pre>
+					</section>
+
+					<section>
+						<h3>PHP Namespaces</h3>
+						<p>Are a way of encapsulating items. Bringing the ability to organize and group related classes and also to avoid name collision.</p>
+<pre><code class="php text-big">
+namespace DrupalCon\FirstBundle\Entity;
+
+class Product
+{
+    private $foo = 'bar';
+    public function __construct()
+    {
+		...
+    } 
+}
+
+</code></pre>
+					</section>
+
+					<section>
+						<h3>Referencing a namespaced class</h3>
+						<p>A namespaced class can be referenced in two different ways.</p>
+<pre><code class="php text-big">
+￼// reference by its fully-qualified name
+$product = new DrupalCon\FirstBundle\Entity\Product();
+
+</code></pre>
+
+<pre><code class="php text-big">
+￼// import the namespace to file
+use DrupalCon\FirstBundle\Entity\Product;
+
+$product = new Product();
+
+</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<h2>Symfony 2</h2>
+					<hr/>
+				</section>
+
+				<section>
+					<section>
+						<h2>Bundles</h2>
+						<p>
+							A Bundle is a directory that contains the files related to a specific feature in our application, including PHP classes, configuration and asset files as Stylesheets, JavaScript and images.
+						</p>
+						<aside class="notes">
+							A bundle is similar to a plugin or module in other paltforms. Everything in Symfony is a bundle, including both the core framework functionality and the code written for your application.
+						</aside>
+					</section>
+					<section>
+						<h3>Bundle Directory Structure</h3>
+<pre><code class='bash text-medium'>
+src/
+└── Acme
+    └── DemoBundle
+        ├── Command
+        ├── Controller
+        ├── DependencyInjection
+        ├── EventListener
+        ├── Form
+        ├── Resources
+        │   └── config, public, views
+        ├── Tests
+        │   └── Controller
+        └── Twig
+            └── Extension
+
+</code></pre>
+					</section>
+
+					<section>
+						<h3>Remove the AcmeDemoBundle </h3>
+						<hr/>
+						<p>
+						<ul class="bullets">
+							<li>Remove Bundle registration <em>'app/AppKernel.php'</em></li>
+							<li>Remove routing reference <em>'app/config/routing_dev.yml'</em></li>
+							<li>Remove directories & files <em>'src/Acme'</em></li>
+						</ul>
+						</p>
+						<p>
+						<a target="_blank" href="http://bit.ly/sf2-Readme">http://bit.ly/sf2-Readme</a>
+						</p>
+					</section>	
+
+					<section>
+						<h3>Remove AcmeDemoBundle registration</h3>
+						<h4>app/AppKernel.php</h4>
+<pre><code class='php text-medium'>
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        ...
+        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+-      		$bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
+        ...
+
+</code></pre>
+					</section>
+
+				<section>
+					<h3>Remove routing reference</h3>
+					<h4>app/config/routing_dev.yml</h4>
+
+<pre><code class='yml text-big'>
+# AcmeDemoBundle routes (to be removed)
+_acme_demo:
+    resource: "@AcmeDemoBundle/Resources/config/routing.yml"
+
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Remove directories</h3>
+<pre><code class='bash text-bigger'>
+$ rm -rf src/Acme
+
+</code></pre>
+				</section>
+
+		        <section>
+		          <h3>Broken site</h3>
+		          <img src="assets/images/broken-site.png" class="no-border">
+		          <p>
+		          <blockquote>
+		          	<p>
+						No route found for "GET /"
+					</p>
+					<p>
+						404 Not Found - NotFoundHttpException
+					</p>
+		          </blockquote>
+		          </p>
+		        </section>
+
+			</section>
+
+			<section>
+				<section>
+					<h2>Create a Bundle</h2>
+					<hr>
+					<p>
+					<ul class="bullets">
+						<li>Create the directory <em>'src/DrupalCon/FirstBundle'</em></li>
+						<li>Create the <em>'FirstBundle'</em> Class at <em>'src/DrupalCon/FirstBundle'</em></li>
+						<li>Register the Bundle in the <em>'AppKernel'</em> Class</li>
+                        <li>Hi-Five your neighbor</li>
+					</ul>
+					</p>
+				</section>
+
+				<section>
+					<h3>Create the Bundle Class</h3>
+					<h4>src/DrupalCon/FirstBundle/FirstBundle.php</h4>
+<pre><code class='php text-big'>
+&lt;?php
+
+namespace DrupalCon\FirstBundle;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class FirstBundle extends Bundle
+{
+
+}
+
+</code></pre>
+				</section>
+
+					<section>
+						<h3>Register the Bundle</h3>
+						<h4>app/AppKernel.php</h4>
+<pre><code class='php text-medium'>
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+ 		...
+            new DrupalCon\FirstBundle\FirstBundle(),
+        );
+     ...
+
+</code></pre>
+					</section>
+
+			</section>
+
+			<section>
+
+
+ 				<section>
+		          <h2>Routing</h2>
+		          <hr/>
+		          <p>A route is a map from a URL path to a controller.</p>
+				  <aside class="notes">
+					<p>We can define a Route as a map from a URL to a controller.</p>
+					<p>In the route definition is where where we especify the path for a resource and the controller that will be executed.</p>
+					<p>Now that I have been mentioning the Controller</p>
+				  </aside>
+		        </section>
+
+		        <section>
+		          <h2>Controller</h2>
+				  <hr/>
+		          <p>A controller is a PHP method you create that takes information from the HTTP request and constructs and returns an HTTP response.</p>
+				  <aside class="notes">
+					<p>A Controller is a method that takes information from the HTTP request object and based on the implemented code contructs and returns a proper HTTP response.</p>
+					<p>Lets see how these two looks in code.</p>
+				  </aside>
+		        </section>
+
+				<section>
+					<h2>Create a Hello World Page</h2>
+					<hr>
+					<p>
+					<ul >
+						<li>
+						<p>
+							Create the <em>'HelloController'</em> Class & <em>'index'</em> Action at <em>'src/FirstBundle/Controller'</em> directory
+						</p>
+						</li>
+						<li><p>
+							Create a Route with path to <em>'/'</em> at <em>'src/FirstBundle/Resources/config/routing.yml'</em> file
+						</p></li>
+						<li><p>
+							Import new file at <em>'app/config/routing.yml'</em>
+						</p></li>
+					</ul>
+					</p>
+					<br/>
+					<p>
+                        Follow this!
+					<a target="_blank" href="http://bit.ly/sf2-CreatingPages">http://bit.ly/sf2-CreatingPages</a> (step 1 and 2)
+					</p>
+				</section>
+
+				<section>
+					<h3>Create the Controller Class</h3>
+					<h4>src/DrupalCon/FirstBundle/Controller/HelloController.php</h4>
+<pre><code class='php text-big'>
+&lt;?php
+
+namespace DrupalCon\FirstBundle\Controller;
+
+use Symfony\Component\HttpFoundation\Response;
+
+class HelloController
+{
+  public function indexAction()
+  {
+    return new Response('&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello World&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;');
+  }
+}
+
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Create the Route</h3>
+					<h4>src/DrupalCon/FirstBundle/Resources/config/routing.yml</h4>
+<pre><code class='yml text-big'>
+hello_plain:
+    path:     /
+    defaults: { _controller: FirstBundle:Hello:index }
+
+</code></pre>
+<p>
+	Controller naming pattern 'bundle:controller:action'
+</p>
+<br/>
+<p>
+	You can also use the fully-qualified path name.
+</p>
+<pre><code class='yml text-medium'>
+_controller: DrupalCon\FirstBundle\Controller\HelloController::indexAction
+
+</code></pre>
+				</section>
+
+
+				<section>
+					<h3>Import route file</h3>
+<pre><code class='yml text-big'>
+# app/config/routing.yml
+
+firstbundle:
+    resource: "@FirstBundle/Resources/config/routing.yml"
+    prefix:   /
+
+</code></pre>
+</p>
+				</section>
+				
+				<section>
+<h3>Other type of Responses</h3>
+<pre><code class='php text-big'>
+// JsonResponse
+return new JsonResponse(['key' => 'value']);
+
+// BinaryFileResponse
+return new BinaryFileResponse('path/to/file.txt');
+
+// Redirect
+return new RedirectResponse('YOUR_PATH');
+
+</code></pre>
+
+<h3>Throwing Errors</h3>
+<pre><code class='php text-big'>
+// throw 404 error
+throw new NotFoundHttpException('The product does not exist');
+
+// throw 500 error
+throw new \Exception('Something went wrong!');
+
+</code></pre>
+				</section>
+
+			</section>
+
+			<section>
+
+				<section>
+					<h2>The Base Controller Class</h2>
+					<p>
+						For convenience, Symfony comes with a base Controller class that assists with some of the most common controller tasks and gives your controller class access to any resource it might need.
+					</p>
+					<br/>
+					<p>
+						<a target="_blank" href="http://api.symfony.com/2.3/Symfony/Bundle/FrameworkBundle/Controller/Controller.html">
+						Symfony\Bundle\FrameworkBundle\Controller\Controller
+						</a>
+					</p>
+					<br/>
+					<h4>
+						
+					</h4>
+					<aside class="notes">
+						Symfony provides a Controller Base class containing helper methods with the most common tasks you require inside a controller and also give a method to access services from the service container.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Render a Template</h2>
+					<hr>
+					<p>
+					<ul class="bullets">
+						<li>Extend <em>'HelloController'</em> from <em>'Controller'</em></li>
+						<li>Create the 'template.html.twig' Template file</li>
+						<li>Create the <em>'template'</em> Action</li>
+						<li>Return a response rendering a template</li>
+						<li>Create a Route with path to <em>'/template'</em></li>
+					</ul>
+					</p>
+					<p>
+                        Follow this!
+                        <a target="_blank" href="http://bit.ly/sf2-CreatingPages">http://bit.ly/sf2-CreatingPages</a> (step 3)
+					</p>
+				</section>
+
+				<section>
+					<h3>Extend Controller</h3>
+					<h4>src/DrupalCon/FirstBundle/Controller/HelloController.php</h4>
+<pre><code class='php text-big'>
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+...
+
+class HelloController extends Controller
+{
+...
+
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Create the Template file</h3>
+					<h4>@FirstBundle/Resources/views/Hello/template.html.twig</h4>
+<pre><code class='twig text-big'>
+{% extends "::base.html.twig" %}
+
+{% block title %}Render a Template{% endblock %}
+
+{% block body %}
+    <h1>You just successfully render a template</h1>
+{% endblock %}
+
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Return a response rendering a template</h3>
+					<h4>src/DrupalCon/FirstBundle/Controller/HelloController.php</h4>
+<pre><code class='php text-medium'>
+  public function templateAction()
+  {
+    return $this->render('FirstBundle:Hello:template.html.twig');
+  }
+
+</code></pre>
+
+				<h4>src/DrupalCon/FirstBundle/Resources/config/routing.yml</h4>
+<pre><code class='yml text-medium'>
+hello_template:
+    path:     /template
+    defaults: { _controller: FirstBundle:Hello:template }
+
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Render Template & pass paramater</h3>
+<h4>@FirstBundle/resources/views/Hello/name.html.twig</h4>
+<pre><code class='twig text-big'>Hello {{name}}
+</code></pre>
+<h4>src/DrupalCon/FirstBundle/Controller/HelloController.php</h4>
+<pre><code class='php text-big'>public function nameAction($name) {
+  return $this->render(
+    'FirstBundle:Hello:name.html.twig',
+    [ 'name' => $name ]
+  );
+}
+</code></pre>
+<h4>src/DrupalCon/FirstBundle/Resources/config/routing.yml</h4>
+<pre><code class='yml text-big'>hello_name:
+    path:     /hello/{name}
+    defaults: { _controller: FirstBundle:Hello:name }
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Base Controller helper methods</h3>
+<pre><code class='php text-medium'>// Gets a service by id. Return an object
+get(string $id)
+
+// Returns a RedirectResponse to the given URL.
+redirect(string $url, integer $status = 302)
+
+// Returns a rendered view as string.
+renderView(string $view, array $parameters = array())
+
+// Renders a view. return a Response instance.
+render(string $view, array $parameters = [], Response $response = null)
+
+// Returns a NotFoundHttpException.
+createNotFoundException(
+  string $message = 'Not Found', 
+  Exception $previous = null
+)
+</code></pre>
+				</section>
+
+				<section>
+					<h3 class="medium">Advanced route options</h3>
+<pre><code class='yml text-medium'>
+blog:
+    path:      /blog/{page}
+    defaults:  { _controller: AcmeBlogBundle:Blog:index, page: 1 }
+    requirements:
+        page:  \d+
+
+blog_show:
+    path:      /blog/{slug}.{_format}
+    defaults:  { _controller: AcmeBlogBundle:Blog:show, _format: html }
+    requirements:
+    	_format:  html|json
+
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Adding HTTP method requirements</h3>
+<pre><code class='yml text-medium'>
+contact:
+    path:     /contact
+    defaults: { _controller: AcmeDemoBundle:Main:contact }
+    methods:  [GET]
+
+contact_process:
+    path:     /contact
+    defaults: { _controller: AcmeDemoBundle:Main:contactProcess }
+    methods:  [POST]
+
+</code></pre>
+
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h2>Create a CRUD</h2>
+					<hr/>
+					<p>
+					<ul>
+						<li>Generate an Entity named <em>'Product'</em></li>
+						<li>Generate a CRUD</li>
+						<li>Create Database and Schema</li>
+					</ul>
+					</p>
+					<br/>
+					<p>In order to achieve this three tasks, we are going to take advantage of the Symfony Console Component.</p>
+				</section>
+
+				<section>
+					<h3>Generate entity</h3>
+<pre><code class='bash text-medium'>$ php app/console doctrine:generate:entity
+
+The Entity Shortcut Name: FirstBundle:Product
+
+Configuration Format: annotation
+
+Fields:
+-- name: name
+-- type: string
+-- length: 255
+
+-- name: price
+-- type: float
+
+hit enter wildly!!! Woh!
+(i.e. agree to the default values for everything else)
+</code></pre>
+<p>(if you mess up ctrl + c and start again)</p>
+				</section>
+
+				<section>
+					<h3>Generate CRUD</h3>
+<pre><code class='bash text-medium'>
+$ php app/console doctrine:generate:crud
+
+Entity Shorcut name: FirstBundle:Product
+
+Generate write actions: yes
+
+hit enter wildly!!! Woh!
+(i.e. agree to the default values for everything else!)
+
+</code></pre>
+
+<p>
+    Add these lines to import the routes
+</p>
+
+<pre><code class="yml text-medium">
+# app/config/routing.yml
+# ...
+firstbundle_product:
+    resource: "@FirstBundle/Controller"
+    type: annotation
+
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Create Database and Schema</h3>
+<pre><code class="yml text-big">
+$ php app/console doctrine:database:create
+$ php app/console doctrine:schema:create
+
+</code></pre>
+<br/>
+<p>
+    Database settings are in config parameters file (app/config/parameters.yml)
+</p>
+
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h2>Return a JSON Object</h2>
+					<hr/>
+					<p>
+					<ul>
+						<li>Make a <em>'/product/{id}.json'</em> endpoint <br/><br/></li>
+                        <li>
+                            Copy the <em>'showJsonAction'</em> method to the *top* of your <em>'ProductController'</em> Class
+                        </li>
+					</ul>
+					</p>
+					<br/>
+					<p>
+						<a target="_blank" href="http://bit.ly/dcon-sf-json">http://bit.ly/dcon-sf-json</a>
+					</p>
+				</section>
+			</section>
+            
+			<section>
+
+				<section>
+					<h2>Service</h2>
+					<hr>
+					<h4>PHP object that performs some sort of "useful" task.</h4>
+					<aside class="notes">
+						<p>PHP object that performs some sort of "useful" task.</p>
+						<p>Why we should use services ?</p>
+						<p>Separate logic into reusable classes/objects.</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Service container</h2>
+					<hr>
+					<h4>A Service Container (or dependency injection container) is simply a PHP object that manages the instantiation of services.</h4>
+					<aside class="notes">
+						The container is the object that contains all the services and takes care of create instances when requested.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Create a Service Class</h2>
+					<hr/>
+					<ul>
+						<li>Create a <em>'ProductSerializer'</em> Class and give it a <em>'serialize'</em> method:
+                        </li>
+					</ul>
+<pre><code class="php text-big">use DrupalCon\FirstBundle\Entity\Product;
+
+class ProductSerializer {  
+  public function serialize(Product $product) {
+    
+    $data = [
+      // Copy code to turn product object into JSON here
+    ];
+    return $data;
+  }
+}</code></pre>
+
+				</section>
+
+				<section>
+					<h3>Register a service</h3>
+					<hr/>
+					<ul>
+						<li>
+                            Register your <em>'ProductSerializer'</em> Class as a service
+
+<pre style="width: 100%;"><code class="yml text-medium"># app/config/config.yml
+services:
+    firstbundle.product_serializer:
+        class: DrupalCon\FirstBundle\ProductSerializer
+</code></pre>
+                        </li>
+                        <li>Use the service in your <em>'ProductController'</em>
+                        
+<pre style="width: 100%;" ><code class="php text-medium">public function showJsonAction($id) {
+    // ...
+    $productSerializer = $this->container
+        ->get('firstbundle.product_serializer');
+
+    $json = $productSerializer->serialize($product);
+
+    return new JsonResponse($json);
+}
+</code></pre>
+                        
+                        </li>
+					</ul>
+				</section>
+			</section>
+
+			<section>
+
+				<section>
+		          <h2>Dependency Injection</h2>
+		          <hr>
+		          <h4>Dependency Injection is where components are given their dependencies through their constructors, methods, or directly into fields.</h4>
+		          <aside class="notes">
+		          	<p>Dependency Injection is a way to pass an object dependencies using constructors or methods or defining into fields.</p>
+		          </aside>
+		        </section>
+
+				<section>
+					<h3>Using Dependency Injection</h3>
+					<hr/>
+<pre  style="width: 100%;"><code class="php text-medium">use Symfony\Bundle\FrameworkBundle\Routing\Router;
+
+class ProductSerializer {
+  private $router;
+  public function __construct(Router $router) {
+    $this->router = $router;
+  }    
+  public function serialize(Product $product) {
+    $data = [
+    // ...
+      'url' => $this->router->generate('product_show', ['id' => $product->getId()])
+    ];
+    return $data;
+  }
+}
+</code></pre>
+
+<pre style="width: 100%;"><code class="yml text-medium"># app/config/config.yml
+services:
+    firstbundle.product_serializer:
+        class: DrupalCon\FirstBundle\ProductSerializer
+        arguments: ["@router"]</code></pre>
+
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h2>Drupal 8</h2>
+					<hr/>
+				</section>
+
+<!-- 		<section>
+		    	<h3>Directory Structure</h3>
+				<img class="no-border" src="assets/images/psr-4.png">
+		</section>	 
+-->
+		<section>
+			<h2>Create a module</h2>
+			<hr>
+					<p>
+					<ul class="bullets">
+						<li>Create the directory <em>'modules/custom/drupalcon'</em>.</li>
+						<li>Create the <em>'drupalcon.info.yml'</em> file.</li>
+						<li>Create the <em>'drupalcon.module'</em> file.</li>
+					</ul>
+					</p>
+
+		</section>
+
+	<section>
+		<h3>drupalcon.info.yml</h3>
+<pre><code class="yml text-bigger">
+name: DrupalCon
+type: module
+description: DrupalCon Training demo
+core: 8.x
+package: demo
+
+</code></pre>
+	</section>
+
+	<section>
+		<h3>drupalcon.module</h3>
+<pre><code class="php text-bigger">
+/**
+ * Implements hook_theme().
+ */
+
+  function drupalcon_theme() {
+    $theme = [];
+
+    return $theme;
+  }
+
+</code></pre>
+	</section>
+
+				<section>
+				<h3>generate:module (interactive mode)</h3>
+				<hr/>
+					<img class="no-border" src="assets/images/generate-module.png">
+				</section>
+
+				<section>
+						<h3>generate:module (inline mode)</h3>
+						<hr/>
+<pre><code class="bash text-bigger">
+$ drupal generate:module 
+  --module=DrupalCon 
+  --machine-name=drupalcon 
+  --module-path=/modules/custom/ 
+  --description='DrupalCon Training demo' 
+  --core=8.x 
+  --package=demo 
+  --dependencies='' 
+  --no-interaction
+
+</code></pre>
+				</section>
+	</section>			
+
+	<section>
+			<section>
+				<h3>Create a Page (Controller+Route)</h3>
+				<hr/>
+					<ul >
+						<li>
+						<p>
+							Create the <em>'HelloController'</em> Class & <em>'hello'</em> method at <em>'src/Controller'</em> directory
+						</p>
+						</li>
+						<li><p>
+							Create a Route with path to <em>'/drupalcon/hello/{name}'</em> at <em>'drupalcon.routing.yml'</em> file
+						</p></li>
+					</ul>
+			</section>
+
+			<section>
+		    	<h3 class="medium">src/Controller/HelloController.php</h3>
+<pre><code class="php text-big">namespace Drupal\drupalcon\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+
+class HelloController extends ControllerBase 
+{
+  public function hello($name) {
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->t('Hello: ' . $name)
+    ];
+  }
+}
+
+</code></pre>
+			</section>
+	
+			<section>
+	<h3>drupalcon.routing.yml</h3>
+
+<pre><code class="yml text-medium">
+drupalcon.hello_controller_hello:
+  path: '/drupalcon/hello/{name}'
+  defaults:
+    _controller: '\Drupal\drupalcon\Controller\HelloController::hello'
+    _title: 'drupalcon Title'
+  requirements:
+    _permission: 'access content'
+
+</code></pre>
+			</section>
+
+			<section>
+			<h3>generate:controller</h3>
+			<hr/>
+<pre><code class="bash text-bigger">
+$ generate:controller 
+  --module="drupalcon" 
+  --class-name="HelloController" 
+  --method-name="hello" 
+  --route="/drupalcon/hello/{name}" 
+  --no-interaction
+
+</code></pre>
+			</section>
+
+			<section>
+				<h2>Render a Template</h2>
+					<ul >
+						<li>
+						<p>
+							Create the <em>'hello.html.twig'</em> template file at <em>'templates'</em> directory
+						</p>
+						</li>
+						<li><p>
+							Update the <em>'drupalcon_theme'</em> function at <em>'drupalcon.module'</em> file
+						</p></li>
+						<li><p>
+							Update the <em>'hello'</em> method at <em>'HelloController'</em> class
+						</p></li>
+					</ul>
+			</section>
+
+			<section>
+		    	<h3>templates/hello.html.twig</h3>
+<pre><code class="twig text-big">
+<div class="drupalcon-hello-text">
+  <h1>Hello {{ name }}!</h1>
+</div>
+
+</code></pre>
+			</section>
+
+			<section>
+		    	<h3>drupalcon.module</h3>
+<pre><code class="php text-big">
+/**
+ * Implements hook_help().
+ */
+function drupalcon_theme() {
+  $theme['hello_page'] = [
+     'variables' => ['name' => NULL],
+     'template' => 'hello',
+   ];
+
+   return $theme;
+}
+
+</code></pre>
+			</section>
+
+		<section>
+		    	<h3>src/Controller/HelloController.php</h3>
+<pre><code class="php text-big">
+public function hello($name) {
+    return [
+      '#theme' => 'hello_page',
+      '#name' => $name
+    ];
+}
+
+</code></pre>
+		</section>
+	</section>
+
+	<section>
+		<section>
+			<h2>Create a Block (plugin)</h2>
+				<ul >
+						<li>
+						<p>
+							Create the <em>'ExampleBlock'</em> class at <em>'src/Plugin/Block/'</em> directory.
+						</p>
+						</li>
+						<li><p>
+							Provide plugin annotation.
+						</p></li>
+						<li><p>
+							Make sure class extends <em>'BlockBase'</em> class.
+						</p></li>
+						<li><p>
+							Implement <em>'build'</em> method.
+						</p></li>
+					</ul>
+		</section>		    	
+
+		<section>
+			<h2>generate:plugin:block</h2>
+<pre><code class="bash text-bigger">
+$ drupal generate:plugin:block 
+  --module="drupalcon" 
+  --class-name="ExampleBlock" 
+  --label="example_block" 
+  --plugin-id="example_block" 
+  --no-interaction
+
+</code></pre>
+		</section>		    	
+<section>
+		    	<h3>src/Plugin/Block/ExampleBlock.php</h3>
+<pre><code class="php text-big">namespace Drupal\drupalcon\Plugin\Block;
+
+use Drupal\Core\Block\BlockBase;
+
+/**
+ * Provides a 'ExampleBlock' block.
+ *
+ * @Block(
+ *  id = "example_block",
+ *  admin_label = @Translation("example_block"),
+ * )
+ */
+class ExampleBlock extends BlockBase {
+
+  public function build() {
+    $build = [];
+    $build['example_block']['#markup'] = 'Implement ExampleBlock.';
+
+    return $build;
+  }
+
+}
+</code></pre>
+		</section>		    	
+	</section>	
+	
+
+	<section>
+			<section>
+				<h2>Create a Configuration Form</h2>
+				<hr/>
+					<ul>
+						<li>
+						<p>
+							Create the <em>'EventForm'</em> class at <em>'src/Form/'</em> directory.
+						</p>
+						</li>
+						<li><p>
+							Make sure class extends <em>'ConfigFormBase'</em> class.
+						</p></li>
+						<li><p>
+							Implement <em>'getEditableConfigNames, getFormId, buildForm and submitForm '</em> methods.
+						</p></li>
+						<li><p>
+							Add a Route to <em>'/admin/config/drupalcon/event'</em> at <em>'drupalcon.routing.yml'</em> file.
+						</p></li>
+
+						<li><p>
+							Add a menu link to <em>'drupalcon.links.menu.yml'</em> file.
+						</p></li>
+					</ul>
+			</section>
+
+			<section>
+			<h2>generate:form:config</h2>
+				<hr/>
+					<img class="no-border" src="assets/images/generate-form-config.png">
+			</section>
+
+			<section>
+				<h3>src/Form/EventForm.php</h3>
+<pre><code class="php text-medium">namespace Drupal\drupalcon\Form;
+
+use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormStateInterface;
+
+class EventForm extends ConfigFormBase {
+
+  protected function getEditableConfigNames() {
+    return [
+      'drupalcon.event_config'
+    ];
+  }
+
+  public function getFormId() {
+    return 'event_form';
+  }
+
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $config = $this->config('drupalcon.event_config');
+    $form['country'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Country'),
+      '#description' => $this->t('Enter country'),
+      '#default_value' => $config->get('country'),
+    );
+    $form['city'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('City'),
+      '#description' => $this->t('Enter City'),
+      '#default_value' => $config->get('city'),
+    );
+    $form['date'] = array(
+      '#type' => 'date',
+      '#title' => $this->t('Date'),
+      '#description' => $this->t('Enter date'),
+      '#default_value' => $config->get('date'),
+    );
+
+    return parent::buildForm($form, $form_state);
+  }
+
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    parent::submitForm($form, $form_state);
+
+    $this->config('drupalcon.event_config')
+      ->set('country', $form_state->getValue('country'))
+      ->set('city', $form_state->getValue('city'))
+      ->set('date', $form_state->getValue('date'))
+      ->save();
+  }
+
+}
+</code></pre>
+			</section>
+
+			<section>
+				<h3>drupalcon.routing.yml</h3>
+<pre><code class="yml text-bigger">
+drupalcon.event_form:
+  path: '/admin/config/drupalcon/event'
+  defaults:
+    _form: '\Drupal\drupalcon\Form\EventForm'
+    _title: 'EventForm'
+  requirements:
+    _permission: 'access administration pages'
+
+</code></pre>
+			</section>
+
+			<section>
+				<h3>drupalcon.links.menu.yml</h3>
+<pre><code class="yml text-bigger">
+drupalcon.event_form:
+  title: 'EventForm'
+  description: 'Set Default Event data'
+  route_name: drupalcon.event_form
+  parent: system.admin_config_system
+
+</code></pre>
+			</section>
+		</section>
+
+		<section>	
+			<section>
+				<h2>Create a Service</h2>
+				<ul>
+						<li>
+						<p>
+							Create the <em>'Event'</em> class at <em>'src'</em> directory.
+						</p>
+						</li>
+						<li><p>
+							Register <em>'Event'</em> class at <em>'drupalcon.services.yml'</em> file.
+						</p></li>
+						<li>
+						<p>
+							Create the <em>'ServiceController'</em> Class at <em>'src/Controller'</em> directory and Inject the <em>'drupalcon.event'</em> service
+						</p>
+						</li>
+						<li>
+						<p>
+							Create the <em>'ServiceBlock'</em> class at <em>'src/Plugin/Block/'</em> directory and Inject the <em>'drupalcon.event'</em> service.
+						</p>
+						</li>
+						</p>
+						</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>generate:service</h2>
+<pre><code class="bash text-bigger">
+$ drupal generate:service 
+  --module="drupalcon" 
+  --service-name="drupalcon.event" 
+  --class-name="Event" 
+  --interface="no" 
+  --services="config.factory" 
+  --no-interaction
+
+</code></pre>
+			</section>
+
+
+<section>
+				<h2>src/Event.php</h2>
+<pre><code class="php text-big">namespace Drupal\drupalcon;
+
+use Drupal\Core\Config\ConfigFactory;
+
+class Event {
+
+  protected $config_factory;
+
+  public function __construct(ConfigFactory $config_factory) {
+    $this->config_factory = $config_factory;
+  }
+
+  public function getInformation() {
+    $config = $this->config_factory->get('drupalcon.event_config');
+
+    return sprintf(
+      'DrupalCon is happenig at %s, %s and starts %s',
+      $config->get('country'),
+      $config->get('city'),
+      $config->get('date')
+    );
+  }
+}
+</code></pre>
+			</section>
+
+		</section>
+
+		<section>
+			<section>
+				<h2>Create a Content Entity</h2>
+				<hr/>
+				<ul>
+					<li>
+						<p>Too many steps and files to create/update.
+						</p>
+					</li>
+					<li>
+						<p>Better use Console and ask Tess (@socketwench), you know the Drupal 8 Flag use it.
+						</p>
+					</li>
+				</ul>
+			</section>
+			<section>
+			<h2>generate:entity:content</h2>
+<pre><code class="bash text-bigger">
+$ drupal generate:entity:content 
+  --module="drupalcon" 
+  --entity-class="Foo" 
+  --entity-name="foo" 
+  --no-interaction
+
+</code></pre>
+			</section>
+		</section>
+
+		<section>
+			<section>
+				<h2>Symfony & PHP resources</h2>
+				<ul>
+				<li>
+					<a target="_blank" href="http://symfony.com/doc/2.3/book/index.html">
+						The Symfony Book
+					</a>
+				</li>
+				<li>
+					<a target="_blank" href="http://symfony.com/doc/2.3/cookbook/index.html">
+						The Symfony Cookbook
+					</a>
+				</li>
+				<li><a target="_blank" href="http://www.symfony2cheatsheet.com/">Symfony2 CheatSheet</a></li>
+				<li><a target="_blank" href="https://symfonybricks.com/">Symfony Bricks</a></li>
+				<li><a target="_blank" href="http://www.symfony2-checklist.com/">Symfony2 Deployment Checklist</a></li>
+				<li><a target="_blank" href="http://www.phptherightway.com/">PHP The Right Way</a></li>
+				<li><a target="_blank" href="https://knpuniversity.com/">KNP University</a></li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Drupal 8 Resources</h2>
+				<ul>
+					<li>
+						<a target="_blank" href="https://api.drupal.org/api/drupal/8">API reference</a>
+					</li>
+					<li><a href="https://www.drupal.org/developing/api/8">Drupal 8 APIs</a></li>
+					<li>
+						<a target="_blank" href="https://www.drupal.org/drupal-8.0">Drupal 8 overview</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://www.drupal.org/list-changes">Change records for Drupal core</a>
+						</li>
+					<li>
+						<a target="_blank" href="https://groups.drupal.org/core/updates">Drupal Core Updates</a>
+					</li>
+					<li><a target="_blank" href="http://drupal.org/project/examples">Examples for Developers</a></li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Thanks</h2>
+				<hr/>
+				<h3>Questions & feedback</h3>
+			</section>
+
+			</section>
+
+			</div>
+		</div>
+
+    <footer>
+      <img src="assets/images/blinkreaction-logo.png" class="no-border">
+      <p class="stuck">Not ready for this step? Move your code to this start: <a href="http://bit.ly/d8-im-stuck">http://bit.ly/d8-im-stuck</a></p>
+    </footer>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/leap/leap.js', async: true }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+		<link rel="stylesheet" href="assets/css/custom.css">
+
+	</body>
+</html>
