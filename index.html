@@ -1399,17 +1399,9 @@ drupalcon.event_form:
 							Register <em>'Event'</em> class at <em>'drupalcon.services.yml'</em> file.
 						</p></li>
 						<li>
-						<p>
-							Create the <em>'ServiceController'</em> Class at <em>'src/Controller'</em> directory and Inject the <em>'drupalcon.event'</em> service
-						</p>
-						</li>
-						<li>
-						<p>
-							Create the <em>'ServiceBlock'</em> class at <em>'src/Plugin/Block/'</em> directory and Inject the <em>'drupalcon.event'</em> service.
-						</p>
+							<p>Give it a <em>'getInformation'</em> method.</p>
 						</li>
 						</p>
-						</li>
 				</ul>
 			</section>
 
@@ -1427,8 +1419,7 @@ $ drupal generate:service
 </code></pre>
 			</section>
 
-
-<section>
+			<section>
 				<h2>src/Event.php</h2>
 <pre><code class="php text-big">namespace Drupal\drupalcon;
 
@@ -1441,6 +1432,13 @@ class Event {
   public function __construct(ConfigFactory $config_factory) {
     $this->config_factory = $config_factory;
   }
+}
+</code></pre>
+			</section>
+
+			<section>
+				<h3>Give it a getInformation method</h3>
+<pre><code class="php text-medium">...
 
   public function getInformation() {
     $config = $this->config_factory->get('drupalcon.event_config');
@@ -1452,6 +1450,148 @@ class Event {
       $config->get('date')
     );
   }
+
+...
+</code></pre>
+			</section>
+
+
+			<section>
+<h2>drupalcon.services.yml</h2>
+<pre><code class="php text-big">
+services:
+  drupalcon.event:
+    class: Drupal\drupalcon\Event
+    arguments: ["@config.factory"]
+
+</code></pre>
+			</section>
+
+			<section>
+				<h2>Use the Event Service</h2>
+					<ul>
+						<li>
+						<p>
+							Create the <em>'EventController'</em> Class at <em>'src/Controller'</em> directory and Inject the <em>'drupalcon.event'</em> service
+						</p>
+						</li>
+						<li>
+						<p>
+							Create the <em>'EventBlock'</em> class at <em>'src/Plugin/Block/'</em> directory and Inject the <em>'drupalcon.event'</em> service.
+						</p>
+						</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>generate:controller (service)</h2>
+<pre><code class="bash text-bigger">
+$ drupal generate:controller 
+  --module="drupalcon" 
+  --class-name="EventController" 
+  --method-name="drupalcon" 
+  --route="/drupalcon" 
+  --services="drupalcon.event" 
+  --no-interaction
+
+</code></pre>
+			</section>
+
+			<section>
+<h3>src/Controller/EventController.php</h3>
+<pre><code class="php text-medium">namespace Drupal\drupalcon\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\drupalcon\Event;
+
+class EventController extends ControllerBase implements ContainerInjectionInterface {
+
+  protected $drupalcon_event;
+
+  public function __construct(Event $drupalcon_event) {
+    $this->drupalcon_event = $drupalcon_event;
+  }
+
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('drupalcon.event')
+    );
+  }
+
+  public function drupalcon() {
+    return [
+        '#type' => 'markup',
+        '#markup' => $this->drupalcon_event->getInformation()
+    ];
+  }
+
+}
+</code></pre>
+			</section>
+
+			<section>
+				<h2>generate:plugin:block (service)</h2>
+<pre><code class="bash text-bigger">
+$ dupal generate:plugin:block 
+  --module="drupalcon" 
+  --class-name="EventBlock" 
+  --label="event_block" 
+  --plugin-id="event_block" 
+  --services="drupalcon.event" 
+  --no-interaction
+
+</code></pre>
+			</section>
+
+			<section>
+<h3>src/Plugin/Block/EventBlock.php</h3>
+<pre><code class="php text-medium">namespace Drupal\drupalcon\Plugin\Block;
+
+use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\drupalcon\Event;
+
+/**
+ * Provides a 'EventBlock' block.
+ *
+ * @Block(
+ *  id = "event_block",
+ *  admin_label = @Translation("event_block"),
+ * )
+ */
+class EventBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  protected $drupalcon_event;
+
+  public function __construct(
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        Event $drupalcon_event
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->drupalcon_event = $drupalcon_event;
+  }
+
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('drupalcon.event')
+    );
+  }
+
+  public function build() {
+    $build = [];
+    $build['event_block']['#markup'] = $this->drupalcon_event->getInformation();
+
+    return $build;
+  }
+
 }
 </code></pre>
 			</section>
@@ -1484,6 +1624,9 @@ $ drupal generate:entity:content
 
 </code></pre>
 			</section>
+
+
+
 		</section>
 
 		<section>
