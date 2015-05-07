@@ -758,7 +758,7 @@ Fields:
 <pre><code class='bash text-big'>
 $ php app/console doctrine:generate:crud
 
-Entity Shorcut name: FirstBundle:Product
+Entity Shorcut name: AppBundle:Product
 
 Generate write actions: yes
 
@@ -946,7 +946,7 @@ class ProductSerializer {
 <pre style="width: 100%;"><code class="yml text-big"># app/config/services.yml
 services:
   appbundle.product_serializer:
-    class: DrupalCon\FirstBundle\ProductSerializer
+    class: AppBundle\ProductSerializer
     arguments: ["@router"]</code></pre>
 
 				</section>
